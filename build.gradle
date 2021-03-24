@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'jacoco'
+    id 'info.solidsoft.pitest' version '1.5.1'
+}
+
+group = 'com.nubox.onboarding'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven {
+        url = 'https://sumasaas.jfrog.io/artifactory/virtual-backend-dev/'
+        credentials {
+            username "development"
+            password "#3!Cw@>4YDC@"
+        }
+    }
+}
+
+ext {
+    openapiVersion = '1.3.4'
+    mybatisVersion = '2.1.4'
+    libcommonVersion = '1.0.0-SNAPSHOT'
+    gsonVersion = '2.8.6'
+}
+
+dependencies {
+
+    runtimeOnly 'org.postgresql:postgresql'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation "org.springdoc:springdoc-openapi-ui:${openapiVersion}" //swagger
+    implementation "org.springdoc:springdoc-openapi-data-rest:${openapiVersion}" //swagger
+
+    //our libraries
+    implementation "com.nubox.common:sas-libcommon-back:${libcommonVersion}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/OnboardingApplication.class', '**/swagger/**'])
+        }))
+    }
+}
+
+pitest {
+    targetClasses.set(['com.nubox.onboarding.adapters.*', 'com.nubox.onboarding.domain.*'])
+    junit5PluginVersion.set('0.12')
+}

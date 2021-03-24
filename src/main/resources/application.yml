@@ -1,0 +1,33 @@
+
+# SERVER CONFIG
+server.port: 8080
+server.servlet.context-path: /api
+
+
+spring:
+    profiles.active: dev
+
+    # DATABASE CONFIG
+    datasource:
+        url: jdbc:postgresql://localhost:5433/onboarding
+        username: postgres
+        password: postgres
+
+        hikari:
+            data-source-properties.stringtype: unspecified
+
+    jackson:
+        default-property-inclusion: non_null
+
+mybatis:
+    type-aliases-package: com.nubox.onboarding.domain.model, com.nubox.onboarding.adapters.outbound.model
+    mapper-locations: mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
+
+
+logging:
+    level:
+        ROOT: INFO
+        com.nubox: DEBUG
+

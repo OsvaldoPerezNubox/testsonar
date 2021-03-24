@@ -1,0 +1,14 @@
+
+spring:
+
+    # DATABASE CONFIG
+    datasource:
+        url: jdbc:postgresql://dev.cp5dptkzld52.us-east-1.rds.amazonaws.com:5432/onboarding
+        username: dev
+        password: Qgh2RA7l7N1B
+
+logging:
+    level:
+        ROOT: INFO
+        com.nubox: DEBUG
+
