@@ -28,7 +28,7 @@
         where region_id = #{regionId} and disabled is false limit 1
     </select>
 
-    <select id="getConfigById" resultMap="onboardingConfigRM" resultType="OnboardingConfig">
+    <select2 id="getConfigById" resultMap="onboardingConfigRM" resultType="OnboardingConfig">
         select oc.id, oc."name", oc.region_id,
         s.id as stage_id, s.title as stage_title , s.description as stage_description, s."order" as stage_order
         from (
@@ -37,9 +37,9 @@
         ) oc
         left join stage s on s.onboarding_config_id = oc.id and s.disabled is false
         order by s."order"
-    </select>
+    </select2>
 
-    <select id="getFormElements" resultMap="formElementRM" resultType="FormElement">
+    < id="getFormElements" resultMap="formElementRM" resultType="FormElement">
         select fe.id, fe."label", fe.placeholder, fe.required, fe.required_text, fe.property, fe."order", et."name" as "type",
         fo.id as fo_id, fo.display_name as fo_label, fo.value as fo_value, fo.img_url as fo_img_url, fo."order" as fo_order
         from form_element fe
@@ -47,6 +47,6 @@
         left join form_option fo on fo.form_element_id = fe.id and fo.disabled is false
         where fe.stage_id = #{stageId} and fe.disabled is false and fe.conditional is false
         order by fe."order", fo."order"
-    </select>
-
+    </>
+gfdgdf
 </mapper>
